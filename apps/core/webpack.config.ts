@@ -14,22 +14,18 @@ const config: webpack.Configuration = merge(base, {
     new ModuleFederationPlugin({
       name: 'core',
       library: { type: 'var', name: 'core' },
-      remotes: {
-        counter: 'counter',
-      },
+      remotes: ['counter', 'layout'],
       exposes: {},
-      shared: [
-        {
-          react: {
-            singleton: true,
-            requiredVersion: deps.react,
-          },
-          'react-dom': {
-            singleton: true,
-            requiredVersion: deps['react-dom'],
-          },
+      shared: {
+        react: {
+          singleton: true,
+          requiredVersion: deps.react,
         },
-      ],
+        'react-dom': {
+          singleton: true,
+          requiredVersion: deps['react-dom'],
+        },
+      },
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'index.html'),

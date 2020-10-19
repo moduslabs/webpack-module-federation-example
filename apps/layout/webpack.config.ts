@@ -9,11 +9,11 @@ const config: webpack.Configuration = merge(base, {
   entry: path.join(__dirname, 'index.js'),
   plugins: [
     new ModuleFederationPlugin({
-      name: 'counter',
-      // library: { type: 'var', name: 'counter' },
-      filename: 'counter.js',
+      name: 'layout',
+      // library: { type: 'var', name: 'layout' },
+      filename: 'layout.js',
       exposes: {
-        './Counter': path.join(__dirname, './components/Counter'),
+        './Layout': path.join(__dirname, './components/Layout'),
       },
       shared: {
         react: {
@@ -29,7 +29,7 @@ const config: webpack.Configuration = merge(base, {
   ],
   devServer: {
     contentBase: path.join(__dirname),
-    port: 3001,
+    port: 3002,
   },
 });
 
