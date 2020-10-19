@@ -3,7 +3,7 @@ import * as webpack from 'webpack';
 import { merge } from 'webpack-merge';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import base from '../../webpack.base';
-import pkg from '../../../package.json';
+import pkg from './package.json';
 
 const { ModuleFederationPlugin } = webpack.container;
 const deps = pkg.dependencies;
@@ -35,6 +35,20 @@ const config: webpack.Configuration = merge(base, {
       template: path.join(__dirname, 'index.html'),
     }),
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        // prettier-ignore
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader'
+        ],
+      },
+    ],
+  },
   devServer: {
     contentBase: path.join(__dirname),
     port: 3010,
