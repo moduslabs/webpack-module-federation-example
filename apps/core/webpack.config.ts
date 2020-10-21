@@ -2,7 +2,8 @@ import * as path from "path";
 import * as webpack from "webpack";
 import { merge } from "webpack-merge";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import base, { ConfigEnv } from "../../webpack.base";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import base, { ConfigEnv, isEnvDev, isEnvProd } from "../../webpack.base";
 import pkg from "./package.json";
 
 const { ModuleFederationPlugin } = webpack.container;
@@ -28,21 +29,27 @@ const config = (env: ConfigEnv): webpack.Configuration =>
           },
         },
       }),
+      // @ts-ignore
+      isEnvProd &&
+        new MiniCssExtractPlugin({
+          filename: "static/css/[name].[contenthash:8].css",
+          chunkFilename: "static/css/[name].[contenthash:8].chunk.css",
+        }),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, "index.html"),
       }),
-    ],
+    ].filter(Boolean) as webpack.Configuration["plugins"],
     module: {
       rules: [
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          // prettier-ignore
           use: [
-          'style-loader',
-          'css-loader',
-          'postcss-loader'
-        ],
+            "style-loader",
+            isEnvProd && MiniCssExtractPlugin.loader,
+            "css-loader",
+            "postcss-loader",
+          ].filter(Boolean) as webpack.RuleSetUseItem[],
         },
       ],
     },

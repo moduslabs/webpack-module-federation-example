@@ -14,7 +14,7 @@ const config = (env: ConfigEnv): webpack.Configuration =>
         // library: { type: 'var', name: 'layout' },
         filename: "layout.js",
         exposes: {
-          "./Layout": path.join(__dirname, "./components/Layout"),
+          "./Layout": path.join(__dirname, "./src/components/Layout"),
         },
         shared: {
           react: {

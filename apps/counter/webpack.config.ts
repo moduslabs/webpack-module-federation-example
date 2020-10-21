@@ -14,7 +14,7 @@ const config = (env: ConfigEnv): webpack.Configuration =>
         // library: { type: 'var', name: 'counter' },
         filename: "counter.js",
         exposes: {
-          "./Counter": path.join(__dirname, "./components/Counter"),
+          "./Counter": path.join(__dirname, "./src/components/Counter"),
         },
         shared: {
           react: {
