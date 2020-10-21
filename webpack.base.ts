@@ -1,4 +1,8 @@
-import type { Configuration } from 'webpack';
+import * as webpack from "webpack";
+
+export type ConfigEnv = {
+  [K in Exclude<webpack.Configuration["mode"], undefined>]: boolean;
+};
 
 const stats = {
   assets: true,
@@ -11,26 +15,30 @@ const stats = {
   version: false,
   warnings: true,
   colors: {
-    green: '\u001b[32m',
+    green: "\u001b[32m",
   },
 };
 
-const config: Configuration = {
+const config = (env: ConfigEnv): webpack.Configuration => ({
   stats,
-  mode: 'development',
-  devtool: 'source-map',
-  target: 'web',
+  mode: env && env.production ? "production" : "development",
+  devtool: env && env.production ? "source-map" : "eval",
+  target: "web",
   output: {
-    publicPath: 'auto',
+    publicPath: "auto",
+    filename:
+      env && env.production ? "js/[name].[contenthash:8].js" : "js/[name].js",
+    chunkFilename:
+      env && env.production ? "js/[name].[contenthash:8].js" : "js/[name].js",
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         exclude: /node_modules/,
         options: {
-          presets: ['@babel/preset-react'],
+          presets: ["@babel/preset-react"],
         },
       },
     ],
@@ -40,11 +48,12 @@ const config: Configuration = {
     compress: true,
     hot: true,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers":
+        "X-Requested-With, content-type, Authorization",
     },
   },
-};
+});
 
 export default config;
