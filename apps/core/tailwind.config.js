@@ -13,11 +13,6 @@ module.exports = {
   //   "./**/*.tsx",
   //   "./index.html",
   // ],
-  variants: {
-    appearance: ["responsive", "active"],
-    borderColor: ["responsive", "hover", "focus"],
-    outline: [],
-    zIndex: [],
-  },
+  variants: {},
   plugins: [require("@tailwindcss/ui")],
 };
