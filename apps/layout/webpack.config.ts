@@ -6,7 +6,7 @@ import base, { ConfigEnv } from "../../webpack.base";
 const { ModuleFederationPlugin } = webpack.container;
 
 const config = (env: ConfigEnv): webpack.Configuration =>
-  merge(base(env), {
+  merge(base(env) as webpack.Configuration, {
     entry: path.join(__dirname, "index.js"),
     plugins: [
       new ModuleFederationPlugin({

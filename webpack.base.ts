@@ -22,7 +22,7 @@ const stats = {
   },
 };
 
-const config = (env: ConfigEnv): webpack.Configuration => {
+const config = (env: ConfigEnv) => {
   isEnvProd = env && env.production;
   isEnvDev = env && !env.production;
 
@@ -52,6 +52,7 @@ const config = (env: ConfigEnv): webpack.Configuration => {
     },
     devServer: {
       stats,
+      port: 3000,
       compress: true,
       hot: true,
       headers: {
