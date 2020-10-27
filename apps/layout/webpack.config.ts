@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as webpack from "webpack";
 import { merge } from "webpack-merge";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 import base, { ConfigEnv } from "../../webpack.base";
 
 const { ModuleFederationPlugin } = webpack.container;
@@ -18,14 +19,17 @@ const config = (env: ConfigEnv): webpack.Configuration =>
         },
         shared: {
           react: {
-            import: false,
+            import: "react",
             singleton: true,
           },
           "react-dom": {
-            import: false,
+            import: "react-dom",
             singleton: true,
           },
         },
+      }),
+      new HtmlWebpackPlugin({
+        template: path.join(__dirname, "index.html"),
       }),
     ],
     devServer: {
